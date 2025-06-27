@@ -1,0 +1,36 @@
+﻿@*File này tạo view cho form nhập dữ liệu và hiển thị thước đã vạch*@
+@model Ruler.Models.RulerViewModel
+
+@{
+    ViewBag.Title = "Vạch Thước";
+}
+
+<h2>Chào Mừng Đến Với CS112 - Vạch Thước</h2>
+
+<form asp-action="Index" asp-controller="Ruler" method="post">
+    <label>Độ dài thước:</label>
+    <input asp-for="Length" type="number" required />
+    <br /><br />
+    <label>Chiều cao vạch đầu tiên:</label>
+    <input asp-for="height" type="number" required />
+    <br /><br />
+    <input type="submit" value="Vẽ thước" style="background-color:#2196F3;color:white;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;transition:background 0.3s;" onmouseover="this.style.backgroundColor='#1565C0'" onmouseout="this.style.backgroundColor='#2196F3'" />
+</form>
+
+<br />
+
+@if (Model.Marks?.Count > 0)
+{
+    <h3>Thước Kết Quả:</h3>
+    <br />
+    <svg width="@(Model.Length * 10)" height="@(20 * (Model.height + 1))">
+        <rect x="0" y="0" width="@(Model.Length * 10)" height="@(20 * (Model.height + 1))" fill="#FFFACD" />
+        @foreach (var mark in Model.Marks)
+        {
+            double x = mark.pos * 10; // Mỗi đơn vị là 10px
+            double y1 = 0;
+            double y2 = 20 * mark.level;
+            <line x1="@x" y1="@y1" x2="@x" y2="@y2" style="stroke:red;stroke-width:1" />
+        }
+    </svg>
+}
