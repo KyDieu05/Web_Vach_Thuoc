@@ -16,7 +16,7 @@ namespace Ruler.Controllers
         [HttpPost]
         public IActionResult Index(RulerViewModel input)
         {
-            var marks = new List<(double pos, double level)>();
+            var marks = new List<(double pos, double height)>();
             DrawRuler(0, input.Length, input.height, marks);
 
             var model = new RulerViewModel
@@ -29,14 +29,14 @@ namespace Ruler.Controllers
         }
 
         // Vẽ thước kẻ theo dữ liệu nhập vào:
-        private void DrawRuler(double left, double right, double level, List<(double, double)> result)
+        private void DrawRuler(double left, double right, double height, List<(double, double)> result)
         {
             // Nếu độ cao là 0 hoặc khoảng cách không hợp lệ (vẽ hết rồi), kết thúc đệ quy
-            if (level == 0 || left >= right) return;
+            if (height == 0 || left >= right) return;
             double mid = (left + right) / 2; // Tính vị trí giữa của đoạn thước kẻ
-            DrawRuler(left, mid, level - 1, result); // Vẽ nửa bên trái
-            result.Add((mid, level));// Thêm vạch đánh dấu tại vị trí giữa với cấp độ hiện tại
-            DrawRuler(mid, right, level - 1, result); // Vẽ nửa bên phải
+            DrawRuler(left, mid, height - 1, result); // Vẽ nửa bên trái
+            result.Add((mid, height));// Thêm vạch đánh dấu tại vị trí giữa với cấp độ hiện tại
+            DrawRuler(mid, right, height - 1, result); // Vẽ nửa bên phải
         }
     }
 }
